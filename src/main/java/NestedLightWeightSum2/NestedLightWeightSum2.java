@@ -18,14 +18,13 @@ public class NestedLightWeightSum2 {
         return depth;
     }
 
-    public long calculatedWeight(List<NestedInteger> nestedList, int weight) {
-        long depthWeightSum = 0;
+    public int calculatedWeight(List<NestedInteger> nestedList, int weight) {
+        int depthWeightSum = 0;
         for(NestedInteger item : nestedList){
-            if(item.isInteger()){
+            if(item.isInteger())
                 depthWeightSum +=  weight * item.getInteger();
-            } else {
+            else
                 depthWeightSum += calculatedWeight(item.getList(), weight-1);
-            }
         }
         return depthWeightSum;
     }
@@ -33,7 +32,7 @@ public class NestedLightWeightSum2 {
     public int depthSumInverse(List<NestedInteger> nestedList) {
         int maxDepth =  findMaxDepth(nestedList);
 
-        long weigth = calculatedWeight(nestedList,maxDepth);
+        int weight = calculatedWeight(nestedList,maxDepth);
         return weight;
     }
 
