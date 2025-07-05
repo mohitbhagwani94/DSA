@@ -1,4 +1,6 @@
-package org.example;
+package NestedLightWeightSum2;
+
+import java.util.List;
 
 public class NestedLightWeightSum2 {
     /**
@@ -10,7 +12,7 @@ public class NestedLightWeightSum2 {
         int depth = 1;
         for(NestedInteger item : nestedList){
             if(!item.isInteger()){
-                depth = Math.max(depth,1+findMaxDepth(item));
+                depth = Math.max(depth,1+findMaxDepth(item.getList()));
             }
         }
         return depth;
@@ -31,8 +33,9 @@ public class NestedLightWeightSum2 {
     public int depthSumInverse(List<NestedInteger> nestedList) {
         int maxDepth =  findMaxDepth(nestedList);
 
-        int weigth = calculatedWeight(List<NestedInteger> nestedList,maxDepth);
+        long weigth = calculatedWeight(nestedList,maxDepth);
         return weight;
     }
 
 }
+
