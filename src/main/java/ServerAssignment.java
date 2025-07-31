@@ -7,28 +7,32 @@ public class ServerAssignment {
         int result[] = new int[len];
 
         List<int[]> requests = new ArrayList<>();
-        for(int i = 0; i < len;i++)
-            requests.add(new int[]{arrival[i],burstTime[i],i});
+        for (int i = 0; i < len; i++)
+            requests.add(new int[]{arrival[i], burstTime[i], i});
 
-        requests.sort(Comparator.comparingInt(a->a[0]));
+        //Sorted request to the arrival time
+        requests.sort(Comparator.comparingInt(a -> a[0]));
 
-        PriorityQueue<int[]> busy = new PriorityQueue<>((a,b)-> a[0]==b[0]?a[1]-b[1]:a[0]-b[0]);
+        //priority Queue of a busy server [endTime, SeverIndex]
+        PriorityQueue<int[]> busy = new PriorityQueue<>((a, b) -> a[0] == b[0] ? a[1] - b[1] : a[0] - b[0]);
 
+        // Treeset of the available servers
         TreeSet<Integer> free = new TreeSet<>();
 
-        for(int i = 1; i <= n; i++)
+        for (int i = 1; i <= n; i++)
             free.add(i);
 
-        for(int[] req: requests) {
+        for (int[] req : requests) {
             int arr = req[0];
             int bTime = req[1];
             int index = req[2];
 
-            if(!busy.isEmpty() && busy.peek()[0] <= arr ){
+            //Free  up servers
+            if (!busy.isEmpty() && busy.peek()[0] <= arr) {
                 free.add(busy.poll()[1]);
             }
 
-            if(free.isEmpty()){
+            if (free.isEmpty()) {
                 result[index] = -1;
             } else {
                 int assignedServer = free.first();
@@ -43,7 +47,7 @@ public class ServerAssignment {
 
     public static void main(String[] args) {
         int n = 3;
-        int[] arrival = {2, 4, 1, 8,9};
+        int[] arrival = {2, 4, 1, 8, 9};
         int[] burstTime = {7, 9, 2, 4, 5};
 
         int[] assigned = getServerIndex(n, arrival, burstTime);
