@@ -62,7 +62,7 @@ public class PowerGridMaintenance {
                     int root = stationRoot[x];
                     TreeSet<Integer> set = componentOnline.get(root);
                     if (set != null && !set.isEmpty()) {
-                        resultList.add(set.first());
+                        resultList.add(set.first()); // Remember this method first to check the first element of the treeset
                     } else {
                         resultList.add(-1);
                     }
