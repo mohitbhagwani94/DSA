@@ -3,9 +3,13 @@ package practice.TrafficControlSystem;
 
 import practice.TrafficControlSystem.Enum.Directions;
 import practice.TrafficControlSystem.Enum.LightColor;
+import practice.TrafficControlSystem.Observer.TrafficObserver;
 import practice.TrafficControlSystem.States.Light.GreenState;
 import practice.TrafficControlSystem.States.Light.RedState;
 import practice.TrafficControlSystem.States.Light.SignalState;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TrafficLight {
     int intersectionId;
@@ -13,6 +17,7 @@ public class TrafficLight {
     private SignalState nextState;
     private Directions directions;
     private LightColor currentLightColor;
+    private final List<TrafficObserver> observers = new ArrayList<>();
 
     TrafficLight(int intersectionId, Directions dir) {
         this.intersectionId = intersectionId;
@@ -40,6 +45,22 @@ public class TrafficLight {
     public void setColor(LightColor lightColor) {
         if(this.currentLightColor != lightColor ){
             this.currentLightColor = lightColor;
+            notifyObserver();
         }
     }
+
+    public void addObserver(TrafficObserver observer) {
+        observers.add(observer);
+    }
+
+    public void removeObserver(TrafficObserver observer) {
+        observers.remove(observer);
+    }
+
+    public void notifyObserver(){
+        for(TrafficObserver observer : observers){
+            observer.update(intersectionId, directions, currentLightColor);
+        }
+    }
+
 }

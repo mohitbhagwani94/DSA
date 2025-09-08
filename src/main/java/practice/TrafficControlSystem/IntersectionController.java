@@ -1,10 +1,13 @@
 package practice.TrafficControlSystem;
 
 import practice.TrafficControlSystem.Enum.Directions;
+import practice.TrafficControlSystem.Observer.TrafficObserver;
 import practice.TrafficControlSystem.States.Intersection.IntersectionState;
 import practice.TrafficControlSystem.States.Intersection.NorthSouthGreenState;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class IntersectionController implements Runnable {
@@ -66,6 +69,7 @@ public class IntersectionController implements Runnable {
         private int id;
         private int yellowDuration = 5000;
         private int greenDuration = 2000;
+        List<TrafficObserver> observers = new ArrayList<>();
 
         public Builder(int id){
             this.id = id;
@@ -77,13 +81,17 @@ public class IntersectionController implements Runnable {
             return this;
         }
 
-        // add observer method
+         public Builder addObserver(TrafficObserver observer){
+            observers.add(observer);
+            return this;
+         }
+
 
         public IntersectionController build(){
             Map<Directions, TrafficLight> lights = new HashMap<>();
             for(Directions dir : Directions.values()){
                 TrafficLight light = new TrafficLight(id,dir);
-                //++ Observer
+                observers.forEach(light::addObserver);
                 lights.put(dir,light);
             }
             return new IntersectionController(id,lights, greenDuration, yellowDuration);

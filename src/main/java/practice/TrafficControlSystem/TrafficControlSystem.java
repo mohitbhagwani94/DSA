@@ -1,5 +1,7 @@
 package practice.TrafficControlSystem;
 
+import practice.TrafficControlSystem.Observer.CentralMonitor;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
@@ -20,6 +22,7 @@ public class TrafficControlSystem {
     public void addIntersection(int id, int greenDuration, int yellowDuration){
         IntersectionController intersection = new IntersectionController.Builder(id)
                 .withDuration(greenDuration,yellowDuration)
+                .addObserver(new CentralMonitor())
                 .build();
 
         intersections.add(intersection);
@@ -49,6 +52,4 @@ public class TrafficControlSystem {
         }
         System.out.println("All intersections stopped. System shut down.");
     }
-
-
 }
